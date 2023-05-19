@@ -1,0 +1,7 @@
+RB = 3;
+RU = 6;
+RL = 5;
+RF = 5;
+cell_size = 4;
+NPT = 2;
+skip_first_sbox_layer = false;

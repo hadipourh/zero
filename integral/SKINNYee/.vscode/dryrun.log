@@ -1,0 +1,6 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/hhadipour/Desktop/zero/code/CP-ZC-RT/SKINNY'
+make: Leaving directory '/home/hhadipour/Desktop/zero/code/CP-ZC-RT/SKINNY'
+ 
+make: *** No targets specified and no makefile found.  Stop.
+

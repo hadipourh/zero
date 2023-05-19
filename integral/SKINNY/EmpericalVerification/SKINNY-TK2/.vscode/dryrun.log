@@ -1,0 +1,5 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/hhadipour/Desktop/zero/code/CP-ZC-RT/SKINNY/EmpericalVerification/SKINNY-TK2'
+g++ skinnytk2.cpp --std=c++11 -O3 -Wall -o check
+make: Leaving directory '/home/hhadipour/Desktop/zero/code/CP-ZC-RT/SKINNY/EmpericalVerification/SKINNY-TK2'
+ 

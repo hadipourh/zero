@@ -1,0 +1,163 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{craft}[2022/09/08 Utils for illustrating the CRAFT cipher]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% CRAFT LIBRARY FOR TIKZ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   Utilities for drawing CRAFT rounds and states                              %
+%   Author: Maria Eichlseder                                                   %
+%   Usage: \usepackage{craft}                                                  %
+%   Dependency: tikzlibrarycipher.code.tex                                     %
+%   https://extgit.iaik.tugraz.at/meichlseder/tikz                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% PREREQUISITES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{amsmath,amssymb}
+\RequirePackage{tikz}
+\RequirePackage{xspace}
+\usetikzlibrary{calc,cipher}
+
+%%% GENERAL CRYPTO UTILS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\providecommand{\cipher}[1]{\textsf{#1}}
+
+\providecommand{\SB}{\cipher{SB}\xspace}
+\providecommand{\AC}{\cipher{AC}\xspace}
+\providecommand{\ART}{\cipher{ART}\xspace}
+\providecommand{\PN}{\cipher{PN}\xspace}
+\providecommand{\MC}{\cipher{MC}\xspace}
+
+\providecommand{\SubNibbles}{\cipher{SubNibbles}\xspace} % official name?
+\providecommand{\AddConstant}{\cipher{AddConstant}\xspace} % official name?
+\providecommand{\AddRoundTweakey}{\cipher{AddRoundTweakey}\xspace} % official name?
+\providecommand{\PermuteNibbles}{\cipher{PermuteNibbles}\xspace}
+\providecommand{\MixColumns}{\cipher{MixColumns}\xspace}
+
+%%% COLORS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\colorlet{oper}{white}
+
+%%% CRAFT UTILS & OPTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\CRAFT}[1][]{\if\relax\detokenize{#1}\relax\cipher{CRAFT}\else\mbox{\cipher{CRAFT}-#1}\fi\xspace}
+
+\providecommand{\stateScale}{.3}
+\tikzset{
+  state/.style={inner sep=-.5pt},
+  stateopts/.style={scale=\stateScale},
+  cellopts/.style={font=\footnotesize},
+  box/.append style={fill=oper},
+  >=latex
+}
+
+%%% CRAFT ROUND FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\CraftInit}{
+  \coordinate (init); % beginning of current line
+  \CraftInitCoordinates
+}
+
+\newcommand{\CraftInitCoordinates}{
+  % called by CraftInit and CraftNewLine to initialize state coordinates based on (init)
+  \draw (init) coordinate (here); % current x-coordinate of state
+  \draw (here)  coordinate (S)
+       +(0,.6)  coordinate (lbl);
+  \draw (S.east) coordinate (Shere);
+
+  \draw (here) +(.75,0) coordinate(here);
+  \foreach \r/\offset in {0/.45,1/.15,2/-.15,3/-.45} {
+    \draw (here) + (0,\offset) coordinate (S\r);
+  }
+  \draw (S) +(-.25,-1) coordinate (Shook); % for \CraftNewLine
+}
+
+\newcommand{\CraftState}[2][]{
+  \draw (Shere.east) coordinate (Sprev);
+  \draw (S-|here) node[state] (Shere) {\State{#2}};
+  \draw[->] (Sprev) -- (Shere.west|-Sprev);
+  \draw (Shere|-lbl) node[above,inner sep=1pt] {#1};
+}
+
+\newcommand{\CraftStateNolink}[2][]{
+  \draw (S-|here) node[state] (Shere) {\State{#2}};
+  \draw (Shere.east) coordinate (Sprev);
+  \draw (Shere|-lbl) node[above,inner sep=1pt] {#1};
+}
+
+\newcommand{\CraftStateRowlink}[2][]{
+  \draw (S-|here) node[state] (Shere) {\State{#2}};
+  \draw (Shere.east) coordinate (Sprev);
+  \foreach \r in {0,...,3} {
+    \draw[->] (S\r prev) -- (S\r-|Shere.west);
+  }
+  \draw (Shere|-lbl) node[above,inner sep=1pt] {#1};
+}
+
+\newcommand{\CraftRound}[6][]{
+  % Craft round with Equivalent subTweaKey
+  % #1 = round number (optional)
+  % #2 = S (state)
+  % #3 = S after MixColumns
+  % #4 = Round Tweakey RT
+  % #5 = S after AddRoundTweakey
+  % #6 = S after PermuteNibbles
+  %      S after SubCells is part of the next round or CraftFin
+  %
+  % round input:
+  \CraftStateNolink[$X_{#1}$]{#2}
+
+  % MixColumns
+  \draw (S0-|Shere.east) -- ++(.15,0) coordinate[xor,scale=.5] (S0xor1) -- ++(.30,0) coordinate[xor,scale=.5] (S0prev)
+        (S1-|Shere.east) -- ++(.30,0) coordinate[xor,scale=.5] (S1prev)
+        (S2-|Shere.east)              coordinate               (S2prev)
+        (S3-|Shere.east)              coordinate               (S3prev);
+  \draw[->] (S2-|S0xor1) coordinate[tee,scale=.5] -- (S0xor1);
+  \draw[->] (S3-|S1prev) coordinate[tee,scale=.5] -- (S1prev);
+  \draw[->] (S3-|S0prev) coordinate[tee,scale=.5] -- (S0prev);
+  \draw (here) +(1.9,0) coordinate(here);
+  \CraftStateRowlink[$Y_{#1}$]{#3}
+
+  % AddRoundTweakey:
+  \draw (here.east) ++(1.5,+1.5*\stateScale) coordinate[xor] (Txor);
+  \draw (Sprev) ++(1.5+\stateScale,0) coordinate (Tfin);
+  \draw[->,rounded corners=1pt] (Sprev) -- +(.5*\stateScale,0) |- (Txor);
+  \draw[->,rounded corners=1pt] (Txor) -- +(2.5*\stateScale,0) |- (Tfin);
+  \draw (Txor|-lbl) node[above,inner sep=1pt] {$\textit{RT}_{#1\%4}$};
+  \draw (Txor.east) coordinate (Shere);
+  \draw (Txor.center) ++(0,-2.5*\stateScale) node[state] (There) {\State{#4}};
+  \draw (There.north) -- (Txor);
+  \draw (here) +(3,0) coordinate(here);
+  \CraftStateNolink[$Z_{#1}$]{#5}
+
+  % ShiftRows:
+  \draw (here) +(0.9,0) coordinate(here);
+  \foreach \r/\rn in {0/3,1/2,2/1,3/0} {
+    \draw[->,rounded corners=1pt] (S\r-|Sprev) -- ++(.1,0) -- (S\rn-|here) -- ++(.15,0);
+  }
+  \draw (here) ++(.15,0) node[right,box,minimum height=1.2cm,minimum width=.42cm,font=\scriptsize,align=center] (Shere) {\tiny$\!\ggg\!\!1$\\\tiny$\pi$\\\tiny$\pi$\\\tiny$\!\lll\!\!1$};
+  \foreach \r in {0,...,3} { \draw (S\r-|Shere.east) coordinate(S\r prev); }
+  \draw (here) +(1.40,0) coordinate(here);
+  \CraftStateRowlink[$W_{#1}$]{#6}
+
+  % SubCells:
+  \draw (Shere) ++(1-.05,0) node[box,minimum height=1.2cm,minimum width=.42cm,font=\scriptsize,align=center] (Shere) {\SB\\\AC};
+  \draw (Sprev) -- (Shere);
+  \draw (here) +(2-.05,0) coordinate(here);
+  \draw[->] (Shere.east) -- +(.15+.035,0);
+}
+
+
+\newcommand{\CraftNewLine}[2][]{
+  % #1 = round number (optional)
+  % #2 = state after mixcols (repeated at beginning of next line)
+  % draw and connect final state 
+  \CraftStateNolink[$X_{#1}$]{#2}
+
+  \draw (init) +(0,-2.0) coordinate (init);
+  \draw (Shere.east) coordinate (Send);
+  \draw (Shook) coordinate (Thook);
+  \CraftInitCoordinates{}{}
+  \draw[->,rounded corners=2pt] (Send) -- +(.25,0) |- (Thook) |- (init) -- +(.15,0);
+}
+
+\newcommand{\CraftFin}[2][]{
+  % #1 = round number (optional)
+  % #2 = final state
+  \CraftStateNolink[$X_{#1}$]{#2}
+}
+
+\endinput
