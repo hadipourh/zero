@@ -3,7 +3,9 @@
 <!-- <div style="display: flex; justify-content: center;">
   <img src="miscellaneous/zero.svg" alt="Your SVG" style="width: 10%;">
 </div> -->
+
 ![logo](miscellaneous/zero.svg)
+
 
 This repository contains the implementation of our method first introduced at [EUROCRYPT 2023](https://eurocrypt.iacr.org/2023/program.php) for finding the impossible-differential, zero-correlation, and integral attacks on block ciphers:
 
