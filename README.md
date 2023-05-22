@@ -49,7 +49,7 @@ To locate the specific attack or application you are interested in, navigate to 
 - [impossible](impossible): Impossible-differential attacks
 - [zerocorrelation](zerocorrelation): Zero-correlation attacks
 - [integral](integral): Integral attacks
-- [AutoPSy](AutoPSy): Post-processor of integral attacks leveraging the partial sum technique
+- [autopsy](autopsy): Post-processor of integral attacks leveraging the partial sum technique
 
 The root directory also contains the following folders:
 - [tikzstyles](tikzstyles): Includes the `TiKz` styles, that are necessary to generate the shape of the attacks
