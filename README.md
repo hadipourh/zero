@@ -17,11 +17,9 @@ This repository contains the implementation of our method first introduced at [E
 ***Zero*** is a tool for finding the full impossible differential, full zero-correlation and full integral attacks on block ciphers. In this tool we convert the problem of finding these attacks to a constraint optimization problem  (COP) as described in [our paper](https://doi.org/10.1007/978-3-031-30634-1_5). Next we use the state-of-the-art constraint programming (CP) solvers to solve it. We employ [MiniZinc](https://www.minizinc.org/) to describe the COP problem and use [Or-Tools](https://developers.google.com/optimization) and [Gurobi](https://www.gurobi.com/) as the CP solvers.
 
 ---
-## Table of Contents
 
 - [**Finding the Impossible** ](#finding-the-impossible-)
   - [Tool Overview](#tool-overview)
-  - [Table of Contents](#table-of-contents)
   - [Structure of Our Tool](#structure-of-our-tool)
   - [Requirements](#requirements)
   - [Installation](#installation)

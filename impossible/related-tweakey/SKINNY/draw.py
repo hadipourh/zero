@@ -56,7 +56,7 @@ def trim(docstring):
 
 class Draw():
     """
-    Draw the shape of rectangle attack
+    Draw the shape of ID attack
     """
 
     def __init__(self, id_object, output_file_name="output.tex"):
