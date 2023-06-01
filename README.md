@@ -147,7 +147,7 @@ By compiling the output file `output.tex` using `latexmk -pdf output.tex`, you w
 For integral attack, we have provided two tools. 
 One is a CP-based tool that finds the full integral attack optimized for key-recovery taking the meet-in-the-middle technique into account. 
 The other tool, [AutoPSy](AutoPSy), applies a post-processing step to the output of the first tool leveraging the partial-sum technique in key-recovery. 
-Here we show the tool's usage for finding a full integral attack on SKINNY-$n$-$3n$.
+Here we show the tool's usage for finding a full integral attack on SKINNY-n-3n.
 
 First, navigate into [integral/SKINNY](integral/SKINNY). 
 Then, run the following command to find the full integral attack optimized for key-recovery:
@@ -165,7 +165,7 @@ If you successfully run the above command, the tool generates the `output.tex` f
 
 Next, to apply the key-recovery taking the partial-sum technique into account, navigate into our [AutoPSy](AutoPSy) tool's folder and feed this tool with the parameter of the discovered integral attack.
 
-For example, if you want to reproduce our 26-round integral key-recovery attack on SKINNY-$n$-$3n$, modify the end of `AutoPSy/autopsy.py` file as follows:
+For example, if you want to reproduce our 26-round integral key-recovery attack on SKINNY-n-3n, modify the end of `AutoPSy/autopsy.py` file as follows:
 
 ```python
 tex_autopsy(cipher="skinny", tksetting=3, final_round=26, start_round=18 tk_cell=14, balanced_cell=1, label="blue", input_active=4)
@@ -189,7 +189,7 @@ To understand how we interpret the table above, please refer to our [paper](http
 
 Here, we show how to find integral distinguishers with minimum data complexity on SKINNY.
 The objective function of this problem is minimizing the data complexity of integral distinguishers.
-For example, if you want to reproduce our practical integral distinguisher for 15 rounds of SKINNY-$n$-$3n$, navigate into 
+For example, if you want to reproduce our practical integral distinguisher for 15 rounds of SKINNY-n-3n, navigate into 
 Navigate into [integral/SKINNY](integral/SKINNY), and run the following command:
 
 ```bash
