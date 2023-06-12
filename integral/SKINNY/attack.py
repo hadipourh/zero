@@ -125,7 +125,7 @@ class ZC:
         self.cp_inst["RL"] = self.RL
         self.cp_inst["RF"] = self.RF
         self.cp_inst["NPT"] = self.NPT
-        self.result = self.cp_inst.solve(timeout=time_limit, processes=self.num_of_threads, verbose=True)
+        self.result = self.cp_inst.solve(timeout=time_limit, processes=self.num_of_threads, verbose=False)
         ##########################
         ##########################
         elapsed_time = time.time() - start_time

@@ -102,7 +102,7 @@ class ID:
         self.cp_inst["skip_first_sbox_layer"] = self.skip_first_sbox_layer
         self.cp_inst["cell_size"] = self.cell_size
         self.cp_inst["NPT"] = self.variant
-        self.result = self.cp_inst.solve(timeout=time_limit, processes=self.num_of_threads, verbose=True)
+        self.result = self.cp_inst.solve(timeout=time_limit, processes=self.num_of_threads, verbose=False)
         ##########################
         ##########################
         elapsed_time = time.time() - start_time
