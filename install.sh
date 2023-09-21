@@ -35,7 +35,7 @@ wget https://github.com/google/or-tools/releases/download/v9.2/or-tools_amd64_fl
 
 # Link Or-Tools to MiniZinc
 read -p "Enter the installation path for Or-Tools: " ortools_path
-ortools_full_path="$ortools_path/OrTools"
+ortools_full_path="$ortools_path/or-tools"
 
 if [ -d $ortools_full_path ]; then
     rm -r $ortools_full_path
@@ -45,7 +45,6 @@ mkdir $ortools_full_path
 tar xvzf or-tools_amd64_flatzinc_debian-11_v9.2.9972.tar.gz -C $ortools_full_path --strip-components=1
 rm or-tools_amd64_flatzinc_debian-11_v9.2.9972.tar.gz
 
-ortools_full_path="$ortools_full_path/or-tools"
 sed -i "s|{ORTOOLS_PATH}|$ortools_full_path|g" configfiles/ortools.msc
 cp configfiles/ortools.msc $minizinc_path_full/share/minizinc/solvers
 
