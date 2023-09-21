@@ -33,13 +33,13 @@ echo "installing or-tools ..."
 # Install Or-Tools
 wget https://github.com/google/or-tools/releases/download/v9.2/or-tools_amd64_flatzinc_debian-11_v9.2.9972.tar.gz
 
-if [ -d or-tools ]; then
-    rm -r or-tools
-fi
-
 # Link Or-Tools to MiniZinc
 read -p "Enter the installation path for Or-Tools: " ortools_path
-ortools_full_path="$ortools_path/or-tools"
+ortools_full_path="$ortools_path/OrTools"
+
+if [ -d $ortools_full_path ]; then
+    rm -r $ortools_full_path
+fi
 
 mkdir $ortools_full_path
 tar xvzf or-tools_amd64_flatzinc_debian-11_v9.2.9972.tar.gz -C $ortools_full_path --strip-components=1
