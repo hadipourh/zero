@@ -35,7 +35,7 @@ wget https://github.com/google/or-tools/releases/download/v9.2/or-tools_amd64_fl
 
 # Link Or-Tools to MiniZinc
 read -p "Enter the installation path for Or-Tools: " ortools_path
-ortools_full_path="$ortools_path/OrTools/or-tools"
+ortools_full_path="$ortools_path/or-tools"
 
 if [ -d $ortools_full_path ]; then
     rm -r $ortools_full_path
