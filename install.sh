@@ -41,7 +41,7 @@ fi
 read -p "Enter the installation path for Or-Tools: " ortools_path
 ortools_full_path="$ortools_path/or-tools"
 
-mkdir or-tools
+mkdir $ortools_full_path
 tar xvzf or-tools_amd64_flatzinc_debian-11_v9.2.9972.tar.gz -C $ortools_full_path --strip-components=1
 rm or-tools_amd64_flatzinc_debian-11_v9.2.9972.tar.gz
 
