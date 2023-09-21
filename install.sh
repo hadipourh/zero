@@ -45,6 +45,7 @@ mkdir $ortools_full_path
 tar xvzf or-tools_amd64_flatzinc_debian-11_v9.2.9972.tar.gz -C $ortools_full_path --strip-components=1
 rm or-tools_amd64_flatzinc_debian-11_v9.2.9972.tar.gz
 
+ortools_full_path="$ortools_full_path/or-tools"
 sed -i "s|{ORTOOLS_PATH}|$ortools_full_path|g" configfiles/ortools.msc
 cp configfiles/ortools.msc $minizinc_path_full/share/minizinc/solvers
 
