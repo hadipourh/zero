@@ -165,7 +165,7 @@ If you successfully run the above command, the tool generates the `output.tex` f
 
 Next, to apply the key-recovery taking the partial-sum technique into account, navigate into our [autopsy](autopsy) tool's folder and feed this tool with the parameter of the discovered integral attack.
 
-For example, if you want to reproduce our 26-round integral key-recovery attack on SKINNY-n-3n, modify the end of `AutoPSy/autopsy.py` file as follows:
+For example, if you want to reproduce our 26-round integral key-recovery attack on SKINNY-n-3n, modify the end of `autopsy/autopsy.py` file as follows:
 
 ```python
 tex_autopsy(cipher="skinny", tksetting=3, final_round=26, start_round=18 tk_cell=14, balanced_cell=1, label="blue", input_active=4)
