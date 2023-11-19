@@ -146,7 +146,7 @@ By compiling the output file `output.tex` using `latexmk -pdf output.tex`, you w
 
 For integral attack, we have provided two tools. 
 One is a CP-based tool that finds the full integral attack optimized for key-recovery taking the meet-in-the-middle technique into account. 
-The other tool, [AutoPSy](AutoPSy), applies a post-processing step to the output of the first tool leveraging the partial-sum technique in key-recovery. 
+The other tool, [autopsy](autopsy), applies a post-processing step to the output of the first tool leveraging the partial-sum technique in key-recovery. 
 Here we show the tool's usage for finding a full integral attack on SKINNY-n-3n.
 
 First, navigate into [integral/SKINNY](integral/SKINNY). 
@@ -163,7 +163,7 @@ If you successfully run the above command, the tool generates the `output.tex` f
   <img src="miscellaneous/int_skinny_tk3_26r_ct.svg" alt="Your SVG" style="width: 70%;">
 </div>
 
-Next, to apply the key-recovery taking the partial-sum technique into account, navigate into our [AutoPSy](AutoPSy) tool's folder and feed this tool with the parameter of the discovered integral attack.
+Next, to apply the key-recovery taking the partial-sum technique into account, navigate into our [autopsy](autopsy) tool's folder and feed this tool with the parameter of the discovered integral attack.
 
 For example, if you want to reproduce our 26-round integral key-recovery attack on SKINNY-n-3n, modify the end of `AutoPSy/autopsy.py` file as follows:
 
