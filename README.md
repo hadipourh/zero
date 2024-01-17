@@ -189,8 +189,7 @@ To understand how we interpret the table above, please refer to our [paper](http
 
 Here, we show how to find integral distinguishers with minimum data complexity on SKINNY.
 The objective function of this problem is minimizing the data complexity of integral distinguishers.
-For example, if you want to reproduce our practical integral distinguisher for 12 rounds of SKINNY-n-3n, navigate into 
-Navigate into [integral/SKINNY](integral/SKINNY), and run the following command:
+For example, if you want to reproduce our practical integral distinguisher for 12 rounds of SKINNY-n-3n, navigate into [integral/SKINNY](integral/SKINNY), and run the following command:
 
 ```bash
 python3 distinguisher.py -RU 4 -RL 8 -v 3 -sl ortools
