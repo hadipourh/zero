@@ -10,6 +10,10 @@
 This repository contains the implementation of our method first introduced at [EUROCRYPT 2023](https://eurocrypt.iacr.org/2023/program.php) for finding the impossible-differential, zero-correlation, and integral attacks on block ciphers:
 
   - **Hosein Hadipour**, Sadegh Sadeghi, Maria Eichlseder: [Finding the Impossible: Automated Search for Full Impossible Differential, Zero-Correlation, and Integral Attacks](https://eprint.iacr.org/2022/1147). EUROCRYPT 2023. https://doi.org/10.1007/978-3-031-30634-1_5
+
+An enhanced version of our method has been accepted to  [ToSC 2024/1 (FSE 2024)](https://fse.iacr.org/2024/) under the title of [Improved Search for Integral, Impossible Differential and Zero-Correlation Attacks](https://tosc.iacr.org/index.php/ToSC/article/view/11408). 
+To see the source code of our new tool, please refer [zeroplus](https://github.com/hadipourh/zeroplus).
+
 ---
 
 ## Tool Overview
