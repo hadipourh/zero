@@ -355,7 +355,7 @@ array[0..7] of var 0..1: auxif_last_round_el;
 % link the end of El to the beginning of Ef
 constraint forall(i in 0..15)
 (
-    if ayl[R2 - 1, p_permutation[i]] >= 1 then 
+    if azl[R2 - 1, p_permutation[i]] >= 1 then 
         axf[0, i] = 1 
     else 
         axf[0, i] = 0 
