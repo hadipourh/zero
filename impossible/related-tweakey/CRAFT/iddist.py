@@ -29,15 +29,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from email import iterators
-import itertools
-import os
 import sys
 import time
 from traceback import print_stack
 import minizinc
 import datetime
 from argparse import ArgumentParser, RawTextHelpFormatter
+
+# Check if "OR Tools" appears in the output of "minizinc --solvers" command 
+import subprocess
+try:
+    output = subprocess.run(['minizinc', '--solvers'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if "com.google.ortools.sat" in output.stdout.decode("utf-8"):
+        ortools_available = True
+        print("OR Tools is available")
+    else:
+        ortools_available = False
+        print("OR Tools is not available")
+except FileNotFoundError:
+    ortools_available = False
 
 def trim(docstring):
     if not docstring:
@@ -88,6 +98,11 @@ class ZC:
         self.supported_cp_solvers = ['gecode', 'chuffed', 'cbc', 'gurobi',
                                      'picat', 'scip', 'choco', 'ortools']
         assert(self.cp_solver_name in self.supported_cp_solvers)
+        ##################################################
+        if ortools_available:
+            if self.cp_solver_name == "ortools":
+                self.cp_solver_name = "com.google.ortools.sat"
+        ################################################# 
         self.cp_solver = minizinc.Solver.lookup(self.cp_solver_name)
         self.time_limit = time_limit
         self.mzn_file_name = "cpdistrtk.mzn"
@@ -169,7 +184,7 @@ class ZC:
                     after_mc += "\Fill[nonzerofixed]{{s{0}}}".format(i)
                 elif self.result["ay" + updown][r][i] == 2:
                     after_mc += "\Fill[nonzeroany]{{s{0}}}".format(i)
-                elif self.result["ay" + updown] == 3:
+                elif self.result["ay" + updown][r][i] == 3:
                     after_mc += "\Fill[unknown]{{s{0}}}".format(i)
                 if self.result["az" + updown][r][i] == 1:
                     after_addtk += "\Fill[nonzerofixed]{{s{0}}}".format(i)
