@@ -35,6 +35,20 @@ import datetime
 from argparse import ArgumentParser, RawTextHelpFormatter
 from draw import *
 
+# Check if "OR Tools" appears in the output of "minizinc --solvers" command 
+import subprocess
+
+def check_ortools_availability():
+    try:
+        output = subprocess.run(['minizinc', '--solvers'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        return "com.google.ortools.sat" in output.stdout.decode("utf-8")
+    except FileNotFoundError:
+        return False
+
+ortools_available = check_ortools_availability()
+print("OR Tools is available" if ortools_available else "OR Tools is not available")
+
+
 def trim(docstring):
     if not docstring:
         return ''
@@ -88,6 +102,11 @@ class ZC:
         self.supported_cp_solvers = ['gecode', 'chuffed', 'cbc', 'gurobi',
                                      'picat', 'scip', 'choco', 'ortools']
         assert(self.cp_solver_name in self.supported_cp_solvers)
+        ##################################################
+        if ortools_available:
+            if self.cp_solver_name == "ortools":
+                self.cp_solver_name = "com.google.ortools.sat"
+        ################################################# 
         self.cp_solver = minizinc.Solver.lookup(self.cp_solver_name)
         
         self.mzn_file_name = None
